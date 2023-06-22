@@ -1,0 +1,41 @@
+<form [formGroup]="questionFormGroup" class="d-flex flex-column justify-content-center align-self-center">
+    <div class="mb-4" *ngFor="let question of questions; index as i">
+        <ng-container *ngIf="getControl(question.id) as control">
+            <ng-container *ngIf="question.type === '1'">
+                <p class="fw-bold">{{question.questionName}} <span
+                    class="text-danger">{{question.required ? '*' : ''}}</span></p>
+                <div [formArrayName]="question.id" class="form-check mt-2"
+                     *ngFor="let answer of question.answers; index as i;">
+                    <input [formControl]="control?.controls[i]" class="form-check-input" type="checkbox"
+                           id="flexCheckDefault">
+                    <label class="form-check-label" for="flexCheckDefault">
+                        {{answer}}
+                    </label>
+                </div>
+                <p class="text-danger text-sm" *ngIf="question.required && control.touched && !checkMultipleChoiceValid(control.value)">
+                    Please select your answer
+                </p>
+            </ng-container>
+            <ng-container *ngIf="question.type === '2'">
+                <p class="fw-bold">{{question.questionName}} <span
+                    class="text-danger">{{question.required ? '*' : ''}}</span></p>
+                <div class="form-check mt-2">
+                    <textarea [formControl]="control" class="form-control" rows="4"></textarea>
+                </div>
+                <p class="text-danger text-sm" *ngIf="control.touched && control.errors">
+                    Please enter your answer
+                </p>
+            </ng-container>
+        </ng-container>
+
+    </div>
+
+    <div class="w-100">
+        <button class="btn btn-outline-primary d-block mt-5" (click)="handleAddQuestion()">
+            Add New Question
+        </button>
+
+        <button (click)="saveAnswers()" class="my-auto btn btn-primary d-block mt-1">Review my answers ></button>
+    </div>
+</form>
+

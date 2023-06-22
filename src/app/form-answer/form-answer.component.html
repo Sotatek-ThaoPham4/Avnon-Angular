@@ -1,0 +1,9 @@
+<ng-container *ngFor="let answer of answers">
+    <p class="fw-bold">{{answer.questionName}}</p>
+    <p *ngIf="getTypeOfAnswer(answer.answer) === 'string'" class="fst-italic pl-2">{{answer.answer}}</p>
+    <ng-container *ngIf="getTypeOfAnswer(answer.answer) !== 'string'">
+        <p class="fst-italic pl-2" *ngFor="let ans of answer.answer">{{ans}}</p>
+    </ng-container>
+</ng-container>
+
+<a routerLink="/form/builder" class="text-decoration-underline">Back to Forms Builder</a>
